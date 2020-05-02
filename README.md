@@ -62,7 +62,7 @@ Un fork du repo original . Puis, un Pull Request contenant **vos noms** et :
 - Script ```pmkid_attack.py``` **abondamment commenté/documenté** + fichier wordlist
    - Capture d’écran de votre script en action
    
-![](./img/pmkid_attack.PNG)
+![](./img/pmkid_attack.png)
    
 - Captures d'écran de votre exercice 3
 
