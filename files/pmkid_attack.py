@@ -37,7 +37,7 @@ Clientmac = a2b_hex(handshake.addr1.replace(':',''))
 
 print("ssid : ", ssid.decode("utf-8"))
 print("APmac : ", b2a_hex(APmac))
-print("Clientmap : ", b2a_hex(Clientmac))
+print("Clientmac : ", b2a_hex(Clientmac))
 print("target pmkid : ", pmkid, '\n')
 
 print("Looking for the passphrase in : ", dictionary)
