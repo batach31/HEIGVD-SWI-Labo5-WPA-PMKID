@@ -67,8 +67,8 @@ Un fork du repo original . Puis, un Pull Request contenant **vos noms** et :
 - Captures d'écran de votre exercice 3
 
 ![execution hcxpcaptool](./img/hcxpcaptool.PNG)
-![execution hashcat](./img/hashcat_execution.PNG)
-![resultat hashcat](./img/hashcat_execution.PNG)
+![execution hashcat](./img/hashcat_execution.png)
+![resultat hashcat](./img/hashcat_done.png)
 
 Comme nous n'avions pas accès à notre GPU depuis nos VM, nous avions une estimation de temps d'execution de plus de 24 heures. Ce pourquoi nous avons décidé d'executer
 hashcat en lui fournissant un dictionnaire personnalisé contenant la passphrase.
