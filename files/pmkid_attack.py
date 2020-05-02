@@ -10,9 +10,6 @@ import hmac, hashlib
 packets = rdpcap("PMKID_handshake.pcap")
 
 handshake = None
-APmac       = a2b_hex(packets[145].addr3.replace(':',''))
-Clientmac   = a2b_hex(packets[145].addr1.replace(':',''))
-pmkid       = None
 ssid = None
 
 def findSSID():
@@ -32,6 +29,10 @@ for packet in packets:
 
 # compute pmkid form packet
 pmkid = b2a_hex(handshake.load)[-32:-20]
+
+# set client and AP mac
+APmac = a2b_hex(handshake.addr3.replace(':',''))
+Clientmac = a2b_hex(handshake.addr1.replace(':',''))
 
 # read wordlist line by line
 with open('wordlist.txt') as fp:
